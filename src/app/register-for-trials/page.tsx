@@ -1,7 +1,16 @@
 "use client";
 
 import Image from "next/image";
+import Script from "next/script";
 import { useState } from "react";
+
+declare global {
+  interface Window {
+    Razorpay: new (options: Record<string, unknown>) => {
+      open: () => void;
+    };
+  }
+}
 
 const PLAYING_STYLES = ["Batsman", "Bowler", "All Rounder"];
 const TRIAL_LOCATIONS = ["Faridabad", "Delhi", "Gurugram"];
@@ -30,13 +39,86 @@ const FAQS = [
 ];
 
 export default function RegisterForTrialsPage() {
+  const [fullName, setFullName] = useState("");
+  const [age, setAge] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [playingStyle, setPlayingStyle] = useState(PLAYING_STYLES[0]);
   const [location, setLocation] = useState(TRIAL_LOCATIONS[0]);
   const [pkg, setPkg] = useState(PACKAGES[0].id);
-  const [submitted, setSubmitted] = useState(false);
+
+  const [status, setStatus] = useState<"idle" | "loading" | "paid" | "error">("idle");
+  const [errorMsg, setErrorMsg] = useState("");
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setStatus("loading");
+    setErrorMsg("");
+
+    try {
+      const orderRes = await fetch("/api/create-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName,
+          age: Number(age),
+          phone,
+          email,
+          playingStyle,
+          trialLocation: location,
+          packageId: pkg,
+        }),
+      });
+
+      if (!orderRes.ok) {
+        const body = await orderRes.json().catch(() => ({}));
+        throw new Error(body.error || "Could not start payment");
+      }
+
+      const order = await orderRes.json();
+
+      const razorpay = new window.Razorpay({
+        key: order.keyId,
+        amount: order.amount,
+        currency: order.currency,
+        order_id: order.orderId,
+        name: "Playmakerz — FPL 2026 Trials",
+        description: PACKAGES.find((p) => p.id === pkg)?.label,
+        prefill: { name: fullName, email, contact: phone },
+        theme: { color: "#FFB800" },
+        handler: async (response: {
+          razorpay_order_id: string;
+          razorpay_payment_id: string;
+          razorpay_signature: string;
+        }) => {
+          try {
+            const verifyRes = await fetch("/api/verify-payment", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(response),
+            });
+            if (!verifyRes.ok) throw new Error("Payment verification failed");
+            setStatus("paid");
+          } catch (err) {
+            setStatus("error");
+            setErrorMsg(err instanceof Error ? err.message : "Something went wrong");
+          }
+        },
+        modal: {
+          ondismiss: () => setStatus("idle"),
+        },
+      });
+      razorpay.open();
+    } catch (err) {
+      setStatus("error");
+      setErrorMsg(err instanceof Error ? err.message : "Something went wrong");
+    }
+  }
 
   return (
     <>
+      <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
+
       <section className="relative bg-[#0b1330] text-white overflow-hidden">
         <Image
           src="/images/hero-tournaments-bg.png"
@@ -68,22 +150,20 @@ export default function RegisterForTrialsPage() {
               />
             </div>
 
-            {submitted ? (
+            {status === "paid" ? (
               <div className="rounded-2xl bg-white p-10 text-center text-black">
                 <h2 className="font-heading text-2xl font-bold">
                   Thanks — you&apos;re in!
                 </h2>
                 <p className="mt-2 text-black/70">
-                  We&apos;ve received your details. Our team will reach out
-                  with trial timings and venue information shortly.
+                  Payment received and your FPL trial slot is confirmed. A
+                  confirmation email is on its way, and we&apos;ll message you
+                  on WhatsApp with the venue and timing.
                 </p>
               </div>
             ) : (
               <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  setSubmitted(true);
-                }}
+                onSubmit={handleSubmit}
                 className="rounded-2xl bg-white p-6 sm:p-8 text-black"
               >
                 <h2 className="font-heading text-xl font-bold">
@@ -100,6 +180,8 @@ export default function RegisterForTrialsPage() {
                       required
                       type="text"
                       placeholder="Enter name"
+                      value={fullName}
+                      onChange={(e) => setFullName(e.target.value)}
                       className="rounded-lg border border-black/10 bg-mist px-4 py-3 outline-none focus:border-amber"
                     />
                   </label>
@@ -111,6 +193,8 @@ export default function RegisterForTrialsPage() {
                       type="number"
                       min={1}
                       placeholder="Enter age"
+                      value={age}
+                      onChange={(e) => setAge(e.target.value)}
                       className="rounded-lg border border-black/10 bg-mist px-4 py-3 outline-none focus:border-amber"
                     />
                   </label>
@@ -122,6 +206,8 @@ export default function RegisterForTrialsPage() {
                       type="tel"
                       pattern="[0-9]{10}"
                       placeholder="10-digit mobile"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
                       className="rounded-lg border border-black/10 bg-mist px-4 py-3 outline-none focus:border-amber"
                     />
                   </label>
@@ -132,6 +218,8 @@ export default function RegisterForTrialsPage() {
                       required
                       type="email"
                       placeholder="Enter email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       className="rounded-lg border border-black/10 bg-mist px-4 py-3 outline-none focus:border-amber"
                     />
                   </label>
@@ -207,16 +295,19 @@ export default function RegisterForTrialsPage() {
 
                   <button
                     type="submit"
-                    className="mt-2 inline-flex items-center justify-center rounded-full bg-amber-dark px-7 py-3.5 font-bold uppercase tracking-wide text-white transition-colors hover:bg-amber"
+                    disabled={status === "loading"}
+                    className="mt-2 inline-flex items-center justify-center rounded-full bg-amber-dark px-7 py-3.5 font-bold uppercase tracking-wide text-white transition-colors hover:bg-amber disabled:opacity-60"
                   >
-                    Pay Now &amp; Register
+                    {status === "loading" ? "Starting payment…" : "Pay Now & Register"}
                   </button>
+                  {status === "error" && (
+                    <p className="text-center text-xs font-medium text-red-600">
+                      {errorMsg}
+                    </p>
+                  )}
                   <p className="text-center text-xs text-black/50">
                     Secure checkout via{" "}
-                    <span className="font-semibold text-black/70">
-                      Razorpay
-                    </span>
-                    {" "}— payment gateway to be connected.
+                    <span className="font-semibold text-black/70">Razorpay</span>
                   </p>
                 </div>
               </form>
