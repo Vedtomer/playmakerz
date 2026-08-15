@@ -10,6 +10,7 @@ const NAV_LINKS = [
   { href: "/services", label: "Our Services" },
   { href: "/upcoming-tournaments", label: "Upcoming Tournaments", dropdown: true },
   { href: "/experience", label: "The Experience" },
+  { href: "/register-for-trials", label: "Register for Trials" },
 ];
 
 const SOCIAL_LINKS = [
@@ -28,11 +29,11 @@ const SOCIAL_LINKS = [
     href: "https://www.linkedin.com/",
     label: "LinkedIn",
     icon: (
-      <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
-        <rect x="2" y="2" width="20" height="20" rx="3" fill="none" stroke="currentColor" strokeWidth="1.8" />
-        <circle cx="7.2" cy="7.5" r="1.4" />
-        <rect x="6.1" y="10.2" width="2.2" height="8" />
-        <path d="M11.4 10.2h2.1v1.2c.6-.9 1.6-1.5 2.9-1.5 2.2 0 3.5 1.4 3.5 4.1v4.2h-2.2v-3.8c0-1.4-.5-2.3-1.8-2.3-1 0-1.6.7-1.9 1.3-.1.2-.1.6-.1.9v3.9h-2.2v-8z" />
+      <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8">
+        <rect x="3" y="3" width="18" height="18" rx="5" />
+        <circle cx="8.2" cy="8.5" r="1" fill="currentColor" stroke="none" />
+        <rect x="7.2" y="10.8" width="2" height="6.5" fill="currentColor" stroke="none" />
+        <path d="M11.2 10.8h2v1c.5-.7 1.3-1.2 2.4-1.2 1.8 0 2.9 1.1 2.9 3.3v3.4h-2v-3c0-1.1-.4-1.8-1.4-1.8-.8 0-1.3.5-1.5 1-.1.2-.1.5-.1.7v3.1h-2v-6.5z" fill="currentColor" stroke="none" />
       </svg>
     ),
   },
@@ -40,9 +41,9 @@ const SOCIAL_LINKS = [
     href: "https://www.youtube.com/",
     label: "YouTube",
     icon: (
-      <svg viewBox="0 0 24 24" className="h-5 w-5">
-        <rect x="2" y="5" width="20" height="14" rx="4" fill="#FF0000" />
-        <path d="M10 8.5l6 3.5-6 3.5z" fill="white" />
+      <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8">
+        <rect x="2.5" y="5.5" width="19" height="13" rx="4" />
+        <path d="M10.2 9.2l5 2.8-5 2.8z" fill="currentColor" stroke="none" />
       </svg>
     ),
   },
@@ -71,71 +72,67 @@ export default function Header() {
             />
           </Link>
 
-          <ul className="hidden lg:flex items-center gap-8 font-medium">
-            {NAV_LINKS.map((link) => (
-              <li
-                key={link.href}
-                className="relative"
-                onMouseEnter={() => link.dropdown && setTournamentsOpen(true)}
-                onMouseLeave={() => link.dropdown && setTournamentsOpen(false)}
-              >
-                <Link
-                  href={link.href}
-                  className={`flex items-center gap-1 transition-colors hover:text-amber ${
-                    pathname === link.href ? "text-amber" : "text-white"
-                  }`}
+          <div className="hidden lg:flex items-center gap-8">
+            <ul className="flex items-center gap-8 font-medium">
+              {NAV_LINKS.map((link) => (
+                <li
+                  key={link.href}
+                  className="relative"
+                  onMouseEnter={() => link.dropdown && setTournamentsOpen(true)}
+                  onMouseLeave={() => link.dropdown && setTournamentsOpen(false)}
                 >
-                  {link.label}
-                  {link.dropdown && (
-                    <svg
-                      viewBox="0 0 12 8"
-                      className="h-2.5 w-2.5 fill-current"
-                      aria-hidden
-                    >
-                      <path d="M1 1l5 5 5-5" stroke="currentColor" strokeWidth="1.5" fill="none" />
-                    </svg>
+                  <Link
+                    href={link.href}
+                    className={`flex items-center gap-1 transition-colors hover:text-amber ${
+                      pathname === link.href
+                        ? "text-amber underline underline-offset-4"
+                        : "text-white"
+                    }`}
+                  >
+                    {link.label}
+                    {link.dropdown && (
+                      <svg
+                        viewBox="0 0 12 8"
+                        className="h-2.5 w-2.5 fill-current"
+                        aria-hidden
+                      >
+                        <path d="M1 1l5 5 5-5" stroke="currentColor" strokeWidth="1.5" fill="none" />
+                      </svg>
+                    )}
+                  </Link>
+                  {link.dropdown && tournamentsOpen && (
+                    <ul className="absolute left-0 top-full mt-2 w-48 rounded-lg bg-black py-2 shadow-lg ring-1 ring-white/10">
+                      <li>
+                        <Link href="/upcoming-tournaments#fpl" className="block px-4 py-2 text-sm hover:text-amber">
+                          Faridabad Premier League
+                        </Link>
+                      </li>
+                      <li>
+                        <Link href="/upcoming-tournaments#pcl" className="block px-4 py-2 text-sm hover:text-amber">
+                          Playmakerz Champions League
+                        </Link>
+                      </li>
+                    </ul>
                   )}
-                </Link>
-                {link.dropdown && tournamentsOpen && (
-                  <ul className="absolute left-0 top-full mt-2 w-48 rounded-lg bg-black py-2 shadow-lg ring-1 ring-white/10">
-                    <li>
-                      <Link href="/upcoming-tournaments#fpl" className="block px-4 py-2 text-sm hover:text-amber">
-                        Faridabad Premier League
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/upcoming-tournaments#pcl" className="block px-4 py-2 text-sm hover:text-amber">
-                        Playmakerz Champions League
-                      </Link>
-                    </li>
-                  </ul>
-                )}
-              </li>
-            ))}
-          </ul>
+                </li>
+              ))}
+            </ul>
 
-          <div className="hidden lg:flex items-center gap-5">
-            {SOCIAL_LINKS.map((s) => (
-              <a
-                key={s.label}
-                href={s.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={s.label}
-                className="text-white/80 hover:text-amber transition-colors"
-              >
-                <span className="sr-only">{s.label}</span>
-                {s.icon}
-              </a>
-            ))}
-            <Link
-              href="/register-for-trials"
-              className={`font-semibold underline underline-offset-4 transition-colors ${
-                pathname === "/register-for-trials" ? "text-amber" : "text-amber/90 hover:text-amber"
-              }`}
-            >
-              Register for Trials
-            </Link>
+            <div className="flex items-center gap-3">
+              {SOCIAL_LINKS.map((s) => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={s.label}
+                  className="text-amber hover:text-amber-dark transition-colors"
+                >
+                  <span className="sr-only">{s.label}</span>
+                  {s.icon}
+                </a>
+              ))}
+            </div>
           </div>
 
           <button
@@ -165,15 +162,6 @@ export default function Header() {
                   </Link>
                 </li>
               ))}
-              <li>
-                <Link
-                  href="/register-for-trials"
-                  onClick={() => setOpen(false)}
-                  className="inline-flex items-center rounded-full bg-amber px-6 py-3 font-semibold text-black"
-                >
-                  Register for Trials
-                </Link>
-              </li>
               <li className="flex gap-5 pt-2">
                 {SOCIAL_LINKS.map((s) => (
                   <a
@@ -182,7 +170,7 @@ export default function Header() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={s.label}
-                    className="text-white/80"
+                    className="text-amber"
                   >
                     {s.icon}
                   </a>
