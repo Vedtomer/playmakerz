@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Button from "@/components/Button";
+import Reveal from "@/components/Reveal";
 
 const SERVICES = [
   {
@@ -45,7 +46,7 @@ export default function ServicesPage() {
           priority
           className="object-cover opacity-30"
         />
-        <div className="relative mx-auto max-w-7xl px-6 pt-20 pb-16">
+        <Reveal className="relative mx-auto max-w-7xl px-6 pt-20 pb-16">
           <p className="text-amber font-semibold tracking-widest text-sm uppercase">
             Our Services
           </p>
@@ -53,22 +54,22 @@ export default function ServicesPage() {
             End-to-end sports hospitality — from the first whistle to the
             final highlight
           </h1>
-        </div>
+        </Reveal>
 
         <div className="relative mx-auto max-w-7xl px-6 pb-20 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {SERVICES.map((s) => (
-            <div key={s.title} className="rounded-xl bg-black/60 backdrop-blur-sm p-8 ring-1 ring-white/10">
+          {SERVICES.map((s, i) => (
+            <Reveal key={s.title} delay={i * 80} className="rounded-xl bg-black/60 backdrop-blur-sm p-8 ring-1 ring-white/10">
               <h2 className="font-heading text-xl font-bold">{s.title}</h2>
               <p className="mt-3 text-sm text-white/60 leading-relaxed">
                 {s.body}
               </p>
-            </div>
+            </Reveal>
           ))}
         </div>
       </section>
 
       <section className="bg-black text-white">
-        <div className="mx-auto max-w-7xl px-6 py-20 grid gap-12 lg:grid-cols-2 items-center">
+        <Reveal className="mx-auto max-w-7xl px-6 py-20 grid gap-12 lg:grid-cols-2 items-center">
           <div>
             <h2 className="font-heading text-3xl font-bold">Our Story</h2>
             <p className="mt-4 text-white/60 leading-relaxed">
@@ -90,10 +91,10 @@ export default function ServicesPage() {
               className="object-cover"
             />
           </div>
-        </div>
+        </Reveal>
 
         <div className="mx-auto max-w-7xl px-6 pb-20 grid gap-12 lg:grid-cols-2">
-          <div>
+          <Reveal>
             <h2 className="font-heading text-2xl font-bold">
               Mission and Vision
             </h2>
@@ -102,20 +103,20 @@ export default function ServicesPage() {
               energy, and connection — and to become a trusted name in sports
               tourism and sports-based experiences across India and beyond.
             </p>
-          </div>
-          <div>
+          </Reveal>
+          <Reveal delay={100}>
             <h2 className="font-heading text-2xl font-bold">Why Playmakerz?</h2>
             <p className="mt-4 text-white/60 leading-relaxed">
               We combine sports expertise, travel planning, and event execution
               in one team, with a focus on quality, customization, and smooth
               coordination — so every event and tour feels effortless.
             </p>
-          </div>
+          </Reveal>
         </div>
       </section>
 
       <section className="bg-[#0c0c0d] text-white">
-        <div className="mx-auto max-w-7xl px-6 py-16 grid gap-8 sm:grid-cols-3 text-center">
+        <Reveal className="mx-auto max-w-7xl px-6 py-16 grid gap-8 sm:grid-cols-3 text-center">
           {STATS.map((s) => (
             <div key={s.label}>
               <p className="font-heading text-5xl font-bold text-amber">
@@ -124,11 +125,11 @@ export default function ServicesPage() {
               <p className="mt-2 text-white/70">{s.label}</p>
             </div>
           ))}
-        </div>
+        </Reveal>
       </section>
 
       <section className="bg-black text-white">
-        <div className="mx-auto max-w-7xl px-6 py-20">
+        <Reveal className="mx-auto max-w-7xl px-6 py-20">
           <h2 className="font-heading text-3xl font-bold text-center">
             Meet the Team
           </h2>
@@ -156,7 +157,7 @@ export default function ServicesPage() {
               life of a sportstar, even if just for a day.&rdquo;
             </p>
           </div>
-        </div>
+        </Reveal>
       </section>
 
       <section className="bg-amber">

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Button from "@/components/Button";
+import Reveal from "@/components/Reveal";
 
 const GALLERY = [
   "gallery-01.jpg",
@@ -25,12 +26,14 @@ export default function ExperiencePage() {
   return (
     <>
       <section className="bg-black text-white">
-        <div className="mx-auto max-w-7xl px-6 py-24">
+        <Reveal className="mx-auto max-w-7xl px-6 py-24">
           <p className="text-amber font-semibold tracking-widest text-sm uppercase">
             The Arena Awaits
           </p>
-          <h1 className="mt-3 max-w-3xl font-heading text-4xl sm:text-5xl font-bold leading-tight">
-            We&apos;re not event managers. We&apos;re experience creators.
+          <h1 className="mt-3 max-w-3xl font-heading text-4xl sm:text-5xl font-bold italic leading-tight">
+            We&apos;re not event managers.
+            <br />
+            <span className="text-amber">We&apos;re Experience Creators</span>
           </h1>
           <p className="mt-6 max-w-2xl text-white/80 leading-relaxed">
             At Playmakerz, sports should be more than a game — it should be
@@ -41,38 +44,40 @@ export default function ExperiencePage() {
           <Button href="/register-for-trials" variant="primary" className="mt-8">
             Book Your Game
           </Button>
-        </div>
+        </Reveal>
       </section>
 
-      <section className="bg-black text-white mx-auto max-w-7xl px-6 py-20">
-        <p className="text-amber-dark font-semibold tracking-widest text-sm uppercase">
-          Live Action
-        </p>
-        <h2 className="mt-2 font-heading text-3xl sm:text-4xl font-bold">
-          The Championship Gallery
-        </h2>
-        <p className="mt-2 text-white/50 max-w-xl">
-          Moments of determination, celebration, and stadium-grade
-          production from our tournaments.
-        </p>
+      <section className="bg-black text-white">
+        <Reveal className="mx-auto max-w-7xl px-6 py-20">
+          <p className="text-amber-dark font-semibold tracking-widest text-sm uppercase">
+            Live Action
+          </p>
+          <h2 className="mt-2 font-heading text-3xl sm:text-4xl font-bold">
+            The Championship Gallery
+          </h2>
+          <p className="mt-2 text-white/50 max-w-xl">
+            Moments of determination, celebration, and stadium-grade
+            production from our tournaments.
+          </p>
 
-        <div className="mt-10 columns-2 md:columns-3 gap-4 [&>*]:mb-4">
-          {GALLERY.map((file) => (
-            <div key={file} className="relative rounded-xl overflow-hidden break-inside-avoid">
-              <Image
-                src={`/images/${file}`}
-                alt="Playmakerz tournament highlight"
-                width={768}
-                height={576}
-                className="w-full h-auto object-cover"
-              />
-            </div>
-          ))}
-        </div>
+          <div className="mt-10 columns-2 md:columns-3 gap-4 [&>*]:mb-4">
+            {GALLERY.map((file) => (
+              <div key={file} className="relative rounded-xl overflow-hidden break-inside-avoid">
+                <Image
+                  src={`/images/${file}`}
+                  alt="Playmakerz tournament highlight"
+                  width={768}
+                  height={576}
+                  className="w-full h-auto object-cover"
+                />
+              </div>
+            ))}
+          </div>
+        </Reveal>
       </section>
 
       <section className="bg-[#0c0c0d] text-white">
-        <div className="mx-auto max-w-7xl px-6 py-20">
+        <Reveal className="mx-auto max-w-7xl px-6 py-20">
           <p className="text-amber-dark font-semibold tracking-widest text-sm uppercase">
             Client Verdicts
           </p>
@@ -89,7 +94,7 @@ export default function ExperiencePage() {
               Marcus T., VP of Human Resources
             </footer>
           </blockquote>
-        </div>
+        </Reveal>
       </section>
     </>
   );

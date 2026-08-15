@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Button from "@/components/Button";
+import Reveal from "@/components/Reveal";
 
 const SERVICES = [
   {
@@ -46,7 +47,7 @@ export default function Home() {
           priority
           className="object-cover opacity-50"
         />
-        <div className="relative mx-auto max-w-7xl px-6 py-28 sm:py-36">
+        <Reveal className="relative mx-auto max-w-7xl px-6 py-28 sm:py-36">
           <p className="text-amber font-semibold tracking-widest text-sm uppercase">
             Stadium-Ready Tournaments
           </p>
@@ -66,18 +67,18 @@ export default function Home() {
               Partner With Us
             </Button>
           </div>
-        </div>
+        </Reveal>
       </section>
 
       <section className="bg-black text-white">
         <div className="mx-auto max-w-7xl px-6 py-20 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {SERVICES.map((s) => (
-            <div key={s.title} className="rounded-xl bg-[#1a1b1e] p-8">
+          {SERVICES.map((s, i) => (
+            <Reveal key={s.title} delay={i * 80} className="rounded-xl bg-[#1a1b1e] p-8">
               <h2 className="font-heading text-xl font-bold">{s.title}</h2>
               <p className="mt-3 text-sm text-white/60 leading-relaxed">
                 {s.body}
               </p>
-            </div>
+            </Reveal>
           ))}
         </div>
       </section>
@@ -94,7 +95,7 @@ export default function Home() {
       </section>
 
       <section className="bg-black text-white">
-        <div className="mx-auto max-w-7xl px-6 py-16 grid gap-12 lg:grid-cols-2 items-center">
+        <Reveal className="mx-auto max-w-7xl px-6 py-16 grid gap-12 lg:grid-cols-2 items-center">
           <div className="relative h-64 sm:h-80 rounded-2xl overflow-hidden">
             <Image
               src="/images/fpl-crest.png"
@@ -112,13 +113,13 @@ export default function Home() {
               teams, one tournament. The first edition kicks off in
               October 2026, and trials are open now.
             </p>
-            <Button href="/upcoming-tournaments" variant="primary" className="mt-6">
+            <Button href="/upcoming-tournaments#fpl" variant="primary" className="mt-6">
               Be a part of FPL
             </Button>
           </div>
-        </div>
+        </Reveal>
 
-        <div className="mx-auto max-w-7xl px-6 py-16 grid gap-12 lg:grid-cols-2 items-center">
+        <Reveal className="mx-auto max-w-7xl px-6 py-16 grid gap-12 lg:grid-cols-2 items-center">
           <div className="order-2 lg:order-1">
             <h3 className="font-heading text-2xl sm:text-3xl font-bold">
               Playmakerz Champions League.{" "}
@@ -129,7 +130,7 @@ export default function Home() {
               the joy of travel, taking corporate teams and cricket
               enthusiasts to iconic stadiums across the globe.
             </p>
-            <Button href="/upcoming-tournaments" variant="primary" className="mt-6">
+            <Button href="/upcoming-tournaments#pcl" variant="primary" className="mt-6">
               Be a part of PCL
             </Button>
           </div>
@@ -145,29 +146,37 @@ export default function Home() {
               </div>
             ))}
           </div>
-        </div>
+        </Reveal>
       </section>
 
       <section className="bg-[#0c0c0d] text-white">
-        <div className="mx-auto max-w-7xl px-6 py-20 text-center">
+        <Reveal className="mx-auto max-w-7xl px-6 py-20 text-center">
           <h2 className="font-heading text-3xl sm:text-4xl font-bold">
             Catch the Excitement on Social Media
           </h2>
           <p className="mt-3 text-white/60">
-            Follow @playmakerz.sportsandevents for match highlights and
-            behind-the-scenes moments.
+            Follow us for match highlights, trial announcements, and
+            behind-the-scenes moments from every tournament.
           </p>
-          <div className="mt-8">
+          <div className="mt-8 flex flex-wrap justify-center gap-4">
+            <a
+              href="https://www.instagram.com/playmakerz.sportsandevents"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full border border-white/20 px-6 py-3 font-semibold hover:border-amber hover:text-amber transition-colors"
+            >
+              @playmakerz.sportsandevents
+            </a>
             <Button href="/register-for-trials" variant="primary">
               Register for FPL
             </Button>
           </div>
-        </div>
+        </Reveal>
       </section>
 
       <section className="relative bg-black text-white overflow-hidden">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,184,0,0.15),transparent_60%)]" />
-        <div className="relative mx-auto max-w-7xl px-6 py-24 text-center">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,184,0,0.2),transparent_65%)]" />
+        <Reveal className="relative mx-auto max-w-7xl px-6 py-24 text-center">
           <h2 className="font-heading text-3xl sm:text-4xl font-bold">
             Ready to Create Your Next Sporting Legacy?
           </h2>
@@ -185,7 +194,7 @@ export default function Home() {
               Corporate Inquiry
             </Button>
           </div>
-        </div>
+        </Reveal>
       </section>
     </>
   );

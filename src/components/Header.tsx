@@ -69,12 +69,12 @@ export default function Header() {
                 {link.dropdown && tournamentsOpen && (
                   <ul className="absolute left-0 top-full mt-2 w-48 rounded-lg bg-black py-2 shadow-lg ring-1 ring-white/10">
                     <li>
-                      <Link href="/upcoming-tournaments" className="block px-4 py-2 text-sm hover:text-amber">
+                      <Link href="/upcoming-tournaments#fpl" className="block px-4 py-2 text-sm hover:text-amber">
                         Faridabad Premier League
                       </Link>
                     </li>
                     <li>
-                      <Link href="/upcoming-tournaments" className="block px-4 py-2 text-sm hover:text-amber">
+                      <Link href="/upcoming-tournaments#pcl" className="block px-4 py-2 text-sm hover:text-amber">
                         Playmakerz Champions League
                       </Link>
                     </li>
