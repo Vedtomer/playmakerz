@@ -29,13 +29,6 @@ const SERVICES = [
   },
 ];
 
-const PCL_COLLAGE = [
-  "gallery-01.jpg",
-  "gallery-05.jpg",
-  "gallery-09.jpg",
-  "gallery-15.jpg",
-];
-
 export default function Home() {
   return (
     <>
@@ -134,17 +127,13 @@ export default function Home() {
               Be a part of PCL
             </Button>
           </div>
-          <div className="order-1 lg:order-2 grid grid-cols-2 gap-3">
-            {PCL_COLLAGE.map((file) => (
-              <div key={file} className="relative h-32 sm:h-40 rounded-xl overflow-hidden">
-                <Image
-                  src={`/images/${file}`}
-                  alt="Playmakerz Champions League"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            ))}
+          <div className="order-1 lg:order-2 relative aspect-[32/19] rounded-xl overflow-hidden">
+            <Image
+              src="/images/pcl-collage.jpg"
+              alt="Playmakerz Champions League — team travel and matches"
+              fill
+              className="object-cover"
+            />
           </div>
         </Reveal>
       </section>
