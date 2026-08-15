@@ -14,11 +14,8 @@ const SERVICES = [
     title: "International Sports Tours",
     body: "Overseas cricket tours, friendly series, and cultural experiences. Visas, flights, accommodation, fixtures, local coordination, and sightseeing are packaged into one complete trip for clubs, corporates, and academies.",
   },
-];
-
-const MORE_SERVICES = [
   {
-    title: "Corporate Offsites & Team Building",
+    title: "Corporate Offsites and Team Building",
     body: "Retreats and offsite experiences that pair fun activities with leadership and collaboration exercises, built to lift morale and strengthen team bonds.",
   },
   {
@@ -26,9 +23,16 @@ const MORE_SERVICES = [
     body: "Full production for sports days, award ceremonies, and brand activations — venue setup, sound, lights, hospitality, and on-ground coordination.",
   },
   {
-    title: "Sports Travel & Packages",
+    title: "Sports Travel and Packages",
     body: "Curated trips for sports enthusiasts — match tickets, hotel stays, group tours to international stadiums, and custom itineraries.",
   },
+];
+
+const PCL_COLLAGE = [
+  "gallery-01.jpg",
+  "gallery-05.jpg",
+  "gallery-09.jpg",
+  "gallery-15.jpg",
 ];
 
 export default function Home() {
@@ -40,14 +44,14 @@ export default function Home() {
           alt="Playmakerz corporate cricket tournament"
           fill
           priority
-          className="object-cover opacity-60"
+          className="object-cover opacity-50"
         />
         <div className="relative mx-auto max-w-7xl px-6 py-28 sm:py-36">
           <p className="text-amber font-semibold tracking-widest text-sm uppercase">
             Stadium-Ready Tournaments
           </p>
           <h1 className="mt-4 max-w-3xl font-heading text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.05]">
-            Play like a professional sportstar
+            Play like a <span className="text-amber">professional sportstar</span>
           </h1>
           <p className="mt-6 max-w-xl text-lg text-white/80">
             Playmakerz conceptualizes, plans, manages, and executes
@@ -65,12 +69,12 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-20">
-        <div className="grid gap-8 lg:grid-cols-3">
+      <section className="bg-black text-white">
+        <div className="mx-auto max-w-7xl px-6 py-20 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {SERVICES.map((s) => (
-            <div key={s.title} className="rounded-2xl bg-mist p-8">
+            <div key={s.title} className="rounded-xl bg-[#1a1b1e] p-8">
               <h2 className="font-heading text-xl font-bold">{s.title}</h2>
-              <p className="mt-3 text-sm text-black/70 leading-relaxed">
+              <p className="mt-3 text-sm text-white/60 leading-relaxed">
                 {s.body}
               </p>
             </div>
@@ -78,83 +82,81 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-mist">
-        <div className="mx-auto max-w-7xl px-6 py-20 grid gap-8 lg:grid-cols-3">
-          {MORE_SERVICES.map((s) => (
-            <div key={s.title} className="rounded-2xl bg-white p-8">
-              <h2 className="font-heading text-xl font-bold">{s.title}</h2>
-              <p className="mt-3 text-sm text-black/70 leading-relaxed">
-                {s.body}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-6 py-20">
-        <p className="text-amber-dark font-semibold tracking-widest text-sm uppercase">
-          Featured Events
-        </p>
-        <h2 className="mt-2 font-heading text-3xl sm:text-4xl font-bold">
-          Upcoming Tournaments from Playmakerz
-        </h2>
-
-        <div className="mt-10 grid gap-8 lg:grid-cols-2">
-          <div className="rounded-2xl overflow-hidden border border-black/10">
-            <div className="relative h-56">
-              <Image
-                src="/images/fpl-crest.png"
-                alt="Faridabad Premier League"
-                fill
-                className="object-cover"
-              />
-            </div>
-            <div className="p-8">
-              <h3 className="font-heading text-2xl font-bold">
-                Faridabad Premier League is here!!
-              </h3>
-              <p className="mt-3 text-sm text-black/70">
-                FPL is Faridabad&apos;s own franchise-based Premier League — 12
-                teams, one tournament. The first edition kicks off in
-                October 2026, and trials are open now.
-              </p>
-              <Button href="/upcoming-tournaments" variant="light" className="mt-6">
-                Be a part of FPL
-              </Button>
-            </div>
-          </div>
-
-          <div className="rounded-2xl overflow-hidden border border-black/10">
-            <div className="relative h-56">
-              <Image
-                src="/images/pcl-card.jpg"
-                alt="Playmakerz Champions League"
-                fill
-                className="object-cover"
-              />
-            </div>
-            <div className="p-8">
-              <h3 className="font-heading text-2xl font-bold">
-                Playmakerz Champions League — cricket meets travel
-              </h3>
-              <p className="mt-3 text-sm text-black/70">
-                PCL brings competitive cricket and travel together for
-                corporates and cricket enthusiasts, taking teams to iconic
-                stadiums around the world.
-              </p>
-              <Button href="/upcoming-tournaments" variant="light" className="mt-6">
-                Be a part of PCL
-              </Button>
-            </div>
-          </div>
+      <section className="bg-gradient-to-r from-black via-amber-dark/40 to-black">
+        <div className="mx-auto max-w-7xl px-6 py-6">
+          <p className="font-heading text-xl sm:text-2xl font-bold text-white uppercase tracking-wide">
+            Featured Events
+          </p>
+          <p className="text-white/70 text-sm">
+            Upcoming Tournaments from Playmakerz
+          </p>
         </div>
       </section>
 
       <section className="bg-black text-white">
+        <div className="mx-auto max-w-7xl px-6 py-16 grid gap-12 lg:grid-cols-2 items-center">
+          <div className="relative h-64 sm:h-80 rounded-2xl overflow-hidden">
+            <Image
+              src="/images/fpl-crest.png"
+              alt="Faridabad Premier League"
+              fill
+              className="object-contain"
+            />
+          </div>
+          <div>
+            <h3 className="font-heading text-2xl sm:text-3xl font-bold">
+              Faridabad Premier League is here!!
+            </h3>
+            <p className="mt-3 text-white/70 leading-relaxed">
+              FPL is Faridabad&apos;s own franchise-based Premier League — 12
+              teams, one tournament. The first edition kicks off in
+              October 2026, and trials are open now.
+            </p>
+            <Button href="/upcoming-tournaments" variant="primary" className="mt-6">
+              Be a part of FPL
+            </Button>
+          </div>
+        </div>
+
+        <div className="mx-auto max-w-7xl px-6 py-16 grid gap-12 lg:grid-cols-2 items-center">
+          <div className="order-2 lg:order-1">
+            <h3 className="font-heading text-2xl sm:text-3xl font-bold">
+              Playmakerz Champions League.{" "}
+              <span className="text-amber">Cricket meets Travel.</span>
+            </h3>
+            <p className="mt-3 text-white/70 leading-relaxed">
+              PCL brings together the excitement of competitive cricket and
+              the joy of travel, taking corporate teams and cricket
+              enthusiasts to iconic stadiums across the globe.
+            </p>
+            <Button href="/upcoming-tournaments" variant="primary" className="mt-6">
+              Be a part of PCL
+            </Button>
+          </div>
+          <div className="order-1 lg:order-2 grid grid-cols-2 gap-3">
+            {PCL_COLLAGE.map((file) => (
+              <div key={file} className="relative h-32 sm:h-40 rounded-xl overflow-hidden">
+                <Image
+                  src={`/images/${file}`}
+                  alt="Playmakerz Champions League"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#0c0c0d] text-white">
         <div className="mx-auto max-w-7xl px-6 py-20 text-center">
           <h2 className="font-heading text-3xl sm:text-4xl font-bold">
             Catch the Excitement on Social Media
           </h2>
+          <p className="mt-3 text-white/60">
+            Follow @playmakerz.sportsandevents for match highlights and
+            behind-the-scenes moments.
+          </p>
           <div className="mt-8">
             <Button href="/register-for-trials" variant="primary">
               Register for FPL
@@ -163,18 +165,26 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-24 text-center">
-        <h2 className="font-heading text-3xl sm:text-4xl font-bold">
-          Ready to Create Your Next Sporting Legacy?
-        </h2>
-        <p className="mt-4 text-black/70">Let&apos;s bring your sports vision to life.</p>
-        <div className="mt-8 flex flex-wrap justify-center gap-4">
-          <Button href="/register-for-trials" variant="light">
-            Plan Your Sports Tour
-          </Button>
-          <Button href="/register-for-trials" variant="dark">
-            Corporate Inquiry
-          </Button>
+      <section className="relative bg-black text-white overflow-hidden">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,184,0,0.15),transparent_60%)]" />
+        <div className="relative mx-auto max-w-7xl px-6 py-24 text-center">
+          <h2 className="font-heading text-3xl sm:text-4xl font-bold">
+            Ready to Create Your Next Sporting Legacy?
+          </h2>
+          <p className="mt-4 text-white/60">
+            Let&apos;s bring your sports vision to life.
+          </p>
+          <div className="mt-8 flex flex-wrap justify-center gap-4">
+            <Button href="/register-for-trials" variant="dark">
+              Register for FPL
+            </Button>
+            <Button href="/register-for-trials" variant="dark">
+              Plan Your Sports Tour
+            </Button>
+            <Button href="/register-for-trials" variant="dark">
+              Corporate Inquiry
+            </Button>
+          </div>
         </div>
       </section>
     </>

@@ -37,8 +37,15 @@ const STATS = [
 export default function ServicesPage() {
   return (
     <>
-      <section className="bg-black text-white">
-        <div className="mx-auto max-w-7xl px-6 py-20">
+      <section className="relative bg-black text-white overflow-hidden">
+        <Image
+          src="/images/hero-tournaments-bg.png"
+          alt=""
+          fill
+          priority
+          className="object-cover opacity-30"
+        />
+        <div className="relative mx-auto max-w-7xl px-6 pt-20 pb-16">
           <p className="text-amber font-semibold tracking-widest text-sm uppercase">
             Our Services
           </p>
@@ -47,31 +54,31 @@ export default function ServicesPage() {
             final highlight
           </h1>
         </div>
+
+        <div className="relative mx-auto max-w-7xl px-6 pb-20 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {SERVICES.map((s) => (
+            <div key={s.title} className="rounded-xl bg-black/60 backdrop-blur-sm p-8 ring-1 ring-white/10">
+              <h2 className="font-heading text-xl font-bold">{s.title}</h2>
+              <p className="mt-3 text-sm text-white/60 leading-relaxed">
+                {s.body}
+              </p>
+            </div>
+          ))}
+        </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-20 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        {SERVICES.map((s) => (
-          <div key={s.title} className="rounded-2xl bg-mist p-8">
-            <h2 className="font-heading text-xl font-bold">{s.title}</h2>
-            <p className="mt-3 text-sm text-black/70 leading-relaxed">
-              {s.body}
-            </p>
-          </div>
-        ))}
-      </section>
-
-      <section className="bg-mist">
+      <section className="bg-black text-white">
         <div className="mx-auto max-w-7xl px-6 py-20 grid gap-12 lg:grid-cols-2 items-center">
           <div>
             <h2 className="font-heading text-3xl font-bold">Our Story</h2>
-            <p className="mt-4 text-black/70 leading-relaxed">
+            <p className="mt-4 text-white/60 leading-relaxed">
               Playmakerz was built on a simple idea: sports, travel, and
               memorable experiences belong together. What started as a way to
               make sports more engaging has grown into a platform connecting
               teams, travelers, and sports lovers through events and journeys
               worth remembering.
             </p>
-            <Button href="/experience" variant="dark" className="mt-6">
+            <Button href="/experience" variant="primary" className="mt-6">
               Learn more
             </Button>
           </div>
@@ -84,30 +91,30 @@ export default function ServicesPage() {
             />
           </div>
         </div>
+
+        <div className="mx-auto max-w-7xl px-6 pb-20 grid gap-12 lg:grid-cols-2">
+          <div>
+            <h2 className="font-heading text-2xl font-bold">
+              Mission and Vision
+            </h2>
+            <p className="mt-4 text-white/60 leading-relaxed">
+              To create sports and travel experiences that inspire teamwork,
+              energy, and connection — and to become a trusted name in sports
+              tourism and sports-based experiences across India and beyond.
+            </p>
+          </div>
+          <div>
+            <h2 className="font-heading text-2xl font-bold">Why Playmakerz?</h2>
+            <p className="mt-4 text-white/60 leading-relaxed">
+              We combine sports expertise, travel planning, and event execution
+              in one team, with a focus on quality, customization, and smooth
+              coordination — so every event and tour feels effortless.
+            </p>
+          </div>
+        </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-20 grid gap-12 lg:grid-cols-2">
-        <div>
-          <h2 className="font-heading text-2xl font-bold">
-            Mission and Vision
-          </h2>
-          <p className="mt-4 text-black/70 leading-relaxed">
-            To create sports and travel experiences that inspire teamwork,
-            energy, and connection — and to become a trusted name in sports
-            tourism and sports-based experiences across India and beyond.
-          </p>
-        </div>
-        <div>
-          <h2 className="font-heading text-2xl font-bold">Why Playmakerz?</h2>
-          <p className="mt-4 text-black/70 leading-relaxed">
-            We combine sports expertise, travel planning, and event execution
-            in one team, with a focus on quality, customization, and smooth
-            coordination — so every event and tour feels effortless.
-          </p>
-        </div>
-      </section>
-
-      <section className="bg-black text-white">
+      <section className="bg-[#0c0c0d] text-white">
         <div className="mx-auto max-w-7xl px-6 py-16 grid gap-8 sm:grid-cols-3 text-center">
           {STATS.map((s) => (
             <div key={s.label}>
@@ -120,33 +127,35 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-20">
-        <h2 className="font-heading text-3xl font-bold text-center">
-          Meet the Team
-        </h2>
-        <p className="mt-2 text-center text-black/60">
-          Get to know the people behind Playmakerz
-        </p>
+      <section className="bg-black text-white">
+        <div className="mx-auto max-w-7xl px-6 py-20">
+          <h2 className="font-heading text-3xl font-bold text-center">
+            Meet the Team
+          </h2>
+          <p className="mt-2 text-center text-white/60">
+            Get to know the people behind Playmakerz
+          </p>
 
-        <div className="mt-10 mx-auto max-w-md rounded-2xl bg-mist p-8 text-center">
-          <div className="relative mx-auto h-32 w-32 rounded-full overflow-hidden">
-            <Image
-              src="/images/team-kunal.png"
-              alt="Kunal Grover, Founder and Owner, Playmakerz"
-              fill
-              className="object-cover"
-            />
+          <div className="mt-10 mx-auto max-w-md rounded-2xl bg-[#1a1b1e] p-8 text-center">
+            <div className="relative mx-auto h-32 w-32 rounded-full overflow-hidden">
+              <Image
+                src="/images/team-kunal.png"
+                alt="Kunal Grover, Founder and Owner, Playmakerz"
+                fill
+                className="object-cover"
+              />
+            </div>
+            <h3 className="mt-4 font-heading text-xl font-bold">
+              Kunal Grover
+            </h3>
+            <p className="text-sm text-white/50">
+              Founder and Owner, Playmakerz Sports and Events
+            </p>
+            <p className="mt-4 text-sm italic text-white/70">
+              &ldquo;At Playmakerz, we want every corporate employee to live the
+              life of a sportstar, even if just for a day.&rdquo;
+            </p>
           </div>
-          <h3 className="mt-4 font-heading text-xl font-bold">
-            Kunal Grover
-          </h3>
-          <p className="text-sm text-black/60">
-            Founder and Owner, Playmakerz Sports and Events
-          </p>
-          <p className="mt-4 text-sm italic text-black/70">
-            &ldquo;At Playmakerz, we want every corporate employee to live the
-            life of a sportstar, even if just for a day.&rdquo;
-          </p>
         </div>
       </section>
 

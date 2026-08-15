@@ -27,7 +27,7 @@ export default function UpcomingTournamentsPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-20 grid gap-10 lg:grid-cols-2 items-center">
+      <section className="bg-black text-white mx-auto max-w-7xl px-6 py-20 grid gap-10 lg:grid-cols-2 items-center">
         <div className="relative h-72 sm:h-96 rounded-2xl overflow-hidden order-2 lg:order-1">
           <Image
             src="/images/pcl-hero.jpg"
@@ -41,7 +41,7 @@ export default function UpcomingTournamentsPage() {
             Playmakerz Champions League
           </h2>
           <p className="mt-2 text-amber-dark font-semibold">October 2026</p>
-          <p className="mt-4 text-black/70 leading-relaxed">
+          <p className="mt-4 text-white/60 leading-relaxed">
             Cricket meets travel. PCL takes corporate teams and cricket
             enthusiasts to iconic stadiums across the globe, turning every
             tournament into a sporting getaway to remember.

@@ -44,14 +44,14 @@ export default function ExperiencePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-20">
+      <section className="bg-black text-white mx-auto max-w-7xl px-6 py-20">
         <p className="text-amber-dark font-semibold tracking-widest text-sm uppercase">
           Live Action
         </p>
         <h2 className="mt-2 font-heading text-3xl sm:text-4xl font-bold">
           The Championship Gallery
         </h2>
-        <p className="mt-2 text-black/60 max-w-xl">
+        <p className="mt-2 text-white/50 max-w-xl">
           Moments of determination, celebration, and stadium-grade
           production from our tournaments.
         </p>
@@ -71,7 +71,7 @@ export default function ExperiencePage() {
         </div>
       </section>
 
-      <section className="bg-mist">
+      <section className="bg-[#0c0c0d] text-white">
         <div className="mx-auto max-w-7xl px-6 py-20">
           <p className="text-amber-dark font-semibold tracking-widest text-sm uppercase">
             Client Verdicts
@@ -79,13 +79,13 @@ export default function ExperiencePage() {
           <h2 className="mt-2 font-heading text-3xl font-bold">
             Stellar Corporate Feedback
           </h2>
-          <blockquote className="mt-8 max-w-2xl rounded-2xl bg-white p-8">
-            <p className="text-lg text-black/80 leading-relaxed">
+          <blockquote className="mt-8 max-w-2xl rounded-2xl bg-[#1a1b1e] p-8">
+            <p className="text-lg text-white/80 leading-relaxed">
               &ldquo;Our corporate tournament felt exactly like a
               professional league broadcast. The live streaming and stadium
               atmosphere exceeded every expectation.&rdquo;
             </p>
-            <footer className="mt-4 text-sm font-semibold text-black/60">
+            <footer className="mt-4 text-sm font-semibold text-white/50">
               Marcus T., VP of Human Resources
             </footer>
           </blockquote>
