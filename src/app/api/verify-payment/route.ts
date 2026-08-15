@@ -25,28 +25,27 @@ export async function POST(req: NextRequest) {
     .update(`${razorpay_order_id}|${razorpay_payment_id}`)
     .digest("hex");
 
-  const pool = getPool();
-
   if (expectedSignature !== razorpay_signature) {
-    await pool.query(
-      `UPDATE trial_registrations SET payment_status = 'failed' WHERE razorpay_order_id = $1`,
+    await getPool().execute(
+      `UPDATE trial_registrations SET payment_status = 'failed' WHERE razorpay_order_id = ?`,
       [razorpay_order_id]
     );
     return NextResponse.json({ error: "Signature verification failed" }, { status: 400 });
   }
 
-  await pool.query(
+  const pool = getPool();
+  await pool.execute(
     `UPDATE trial_registrations
-       SET payment_status = 'paid', razorpay_payment_id = $1
-     WHERE razorpay_order_id = $2`,
+       SET payment_status = 'paid', razorpay_payment_id = ?
+     WHERE razorpay_order_id = ?`,
     [razorpay_payment_id, razorpay_order_id]
   );
 
-  const { rows } = await pool.query(
-    `SELECT * FROM trial_registrations WHERE razorpay_order_id = $1 LIMIT 1`,
+  const [rows] = await pool.execute(
+    `SELECT * FROM trial_registrations WHERE razorpay_order_id = ? LIMIT 1`,
     [razorpay_order_id]
   );
-  const reg = rows[0];
+  const reg = (rows as Record<string, unknown>[])[0];
 
   if (!reg) {
     return NextResponse.json({ error: "Registration not found" }, { status: 404 });
@@ -66,8 +65,8 @@ export async function POST(req: NextRequest) {
 
   try {
     await sendRegistrationEmails(details);
-    await pool.query(
-      `UPDATE trial_registrations SET email_sent = TRUE WHERE razorpay_order_id = $1`,
+    await pool.execute(
+      `UPDATE trial_registrations SET email_sent = 1 WHERE razorpay_order_id = ?`,
       [razorpay_order_id]
     );
   } catch (err) {
@@ -82,8 +81,8 @@ export async function POST(req: NextRequest) {
       packageLabel: details.packageLabel,
     });
     if (!("skipped" in result)) {
-      await pool.query(
-        `UPDATE trial_registrations SET whatsapp_sent = TRUE WHERE razorpay_order_id = $1`,
+      await pool.execute(
+        `UPDATE trial_registrations SET whatsapp_sent = 1 WHERE razorpay_order_id = ?`,
         [razorpay_order_id]
       );
     }
