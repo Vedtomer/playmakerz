@@ -154,10 +154,52 @@ export default function Home() {
           <h2 className="font-heading text-3xl sm:text-4xl font-bold">
             Catch the Excitement on Social Media
           </h2>
-          <p className="mt-3 text-white/60">
-            Follow us for match highlights, trial announcements, and
-            behind-the-scenes moments from every tournament.
-          </p>
+
+          <div className="mt-10 grid grid-cols-2 lg:grid-cols-4 gap-4 text-left">
+            <a
+              href="https://www.instagram.com/playmakerz.sportsandevents"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="relative aspect-square rounded-xl overflow-hidden ring-1 ring-white/10"
+            >
+              <Image
+                src="/images/social-promo.webp"
+                alt="Playmakerz Tribe announcement"
+                fill
+                className="object-cover"
+              />
+            </a>
+            <div className="relative aspect-square rounded-xl overflow-hidden ring-1 ring-white/10">
+              <video
+                src="/videos/social-01.mp4"
+                poster="/images/social-01-poster.jpg"
+                controls
+                preload="metadata"
+                playsInline
+                className="h-full w-full object-cover"
+              />
+            </div>
+            <div className="relative aspect-square rounded-xl overflow-hidden ring-1 ring-white/10">
+              <video
+                src="/videos/social-02.mp4"
+                poster="/images/social-02-poster.jpg"
+                controls
+                preload="metadata"
+                playsInline
+                className="h-full w-full object-cover"
+              />
+            </div>
+            <div className="relative aspect-square rounded-xl overflow-hidden ring-1 ring-white/10">
+              <video
+                src="/videos/social-03.mp4"
+                controls
+                preload="metadata"
+                playsInline
+                className="h-full w-full object-cover"
+              />
+            </div>
+          </div>
+
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <a
               href="https://www.instagram.com/playmakerz.sportsandevents"
