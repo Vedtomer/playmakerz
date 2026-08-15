@@ -44,9 +44,9 @@ export async function sendWhatsAppConfirmation(reg: WhatsAppRegistration) {
             {
               type: "body",
               parameters: [
-                { type: "text", text: reg.fullName },
-                { type: "text", text: reg.trialLocation },
-                { type: "text", text: reg.packageLabel },
+                { type: "text", parameter_name: "name", text: reg.fullName },
+                { type: "text", parameter_name: "trial_location", text: reg.trialLocation },
+                { type: "text", parameter_name: "package", text: reg.packageLabel },
               ],
             },
           ],
