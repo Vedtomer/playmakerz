@@ -69,3 +69,19 @@ export async function sendRegistrationEmails(details: RegistrationDetails) {
     });
   }
 }
+
+export async function sendOtpEmail(to: string, otp: string) {
+  const from = `"${process.env.MAIL_FROM_NAME}" <${process.env.MAIL_FROM_ADDRESS}>`;
+  await getTransporter().sendMail({
+    from,
+    to,
+    subject: `${otp} is your Playmakerz admin login code`,
+    html: `
+      <div style="font-family:sans-serif;max-width:420px">
+        <h2 style="color:#111">Admin login code</h2>
+        <p style="font-size:32px;font-weight:700;letter-spacing:4px;margin:16px 0">${otp}</p>
+        <p style="color:#666;font-size:13px">This code expires in 10 minutes. If you didn't request this, ignore this email.</p>
+      </div>
+    `,
+  });
+}
