@@ -42,10 +42,10 @@ export async function POST(req: NextRequest) {
   });
 
   const pool = getPool();
-  await pool.execute(
+  await pool.query(
     `INSERT INTO trial_registrations
       (full_name, age, phone, email, playing_style, trial_location, package_id, package_label, amount_inr, razorpay_order_id, payment_status)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'created')`,
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, 'created')`,
     [fullName, age, phone, email, playingStyle, trialLocation, packageId, pkg.label, pkg.amountInr, order.id]
   );
 

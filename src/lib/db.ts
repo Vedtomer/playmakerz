@@ -1,16 +1,17 @@
-import mysql from "mysql2/promise";
+import { Pool } from "pg";
 
-let pool: mysql.Pool | undefined;
+let pool: Pool | undefined;
 
 export function getPool() {
   if (!pool) {
-    pool = mysql.createPool({
+    pool = new Pool({
       host: process.env.DB_HOST,
+      port: Number(process.env.DB_PORT ?? 5432),
       user: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      waitForConnections: true,
-      connectionLimit: 5,
+      ssl: { rejectUnauthorized: false },
+      max: 5,
     });
   }
   return pool;
