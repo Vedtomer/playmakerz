@@ -13,9 +13,39 @@ const NAV_LINKS = [
 ];
 
 const SOCIAL_LINKS = [
-  { href: "https://www.instagram.com/playmakerz.sportsandevents", label: "Instagram" },
-  { href: "https://www.linkedin.com/", label: "LinkedIn" },
-  { href: "https://www.youtube.com/", label: "YouTube" },
+  {
+    href: "https://www.instagram.com/playmakerz.sportsandevents",
+    label: "Instagram",
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8">
+        <rect x="3" y="3" width="18" height="18" rx="5" />
+        <circle cx="12" cy="12" r="4" />
+        <circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none" />
+      </svg>
+    ),
+  },
+  {
+    href: "https://www.linkedin.com/",
+    label: "LinkedIn",
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
+        <rect x="2" y="2" width="20" height="20" rx="3" fill="none" stroke="currentColor" strokeWidth="1.8" />
+        <circle cx="7.2" cy="7.5" r="1.4" />
+        <rect x="6.1" y="10.2" width="2.2" height="8" />
+        <path d="M11.4 10.2h2.1v1.2c.6-.9 1.6-1.5 2.9-1.5 2.2 0 3.5 1.4 3.5 4.1v4.2h-2.2v-3.8c0-1.4-.5-2.3-1.8-2.3-1 0-1.6.7-1.9 1.3-.1.2-.1.6-.1.9v3.9h-2.2v-8z" />
+      </svg>
+    ),
+  },
+  {
+    href: "https://www.youtube.com/",
+    label: "YouTube",
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-5 w-5">
+        <rect x="2" y="5" width="20" height="14" rx="4" fill="#FF0000" />
+        <path d="M10 8.5l6 3.5-6 3.5z" fill="white" />
+      </svg>
+    ),
+  },
 ];
 
 export default function Header() {
@@ -29,14 +59,14 @@ export default function Header() {
         STARTED: Trials for Faridabad Premier League
       </div>
       <div className="bg-black text-white">
-        <nav className="mx-auto max-w-7xl flex items-center justify-between px-6 py-4">
+        <nav className="mx-auto max-w-7xl flex items-center justify-between px-6 py-3">
           <Link href="/" className="flex items-center gap-2 shrink-0">
             <Image
               src="/images/logo.png"
               alt="Playmakerz"
-              width={160}
-              height={160}
-              className="h-14 w-14 sm:h-16 sm:w-16 object-contain"
+              width={220}
+              height={220}
+              className="h-20 w-20 sm:h-24 sm:w-24 object-contain"
               priority
             />
           </Link>
@@ -92,12 +122,10 @@ export default function Header() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={s.label}
-                className="text-white/80 hover:text-amber"
+                className="text-white/80 hover:text-amber transition-colors"
               >
                 <span className="sr-only">{s.label}</span>
-                <span aria-hidden className="text-lg">
-                  {s.label === "Instagram" ? "◎" : s.label === "LinkedIn" ? "in" : "▶"}
-                </span>
+                {s.icon}
               </a>
             ))}
             <Link
@@ -153,9 +181,10 @@ export default function Header() {
                     href={s.href}
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label={s.label}
                     className="text-white/80"
                   >
-                    {s.label}
+                    {s.icon}
                   </a>
                 ))}
               </li>

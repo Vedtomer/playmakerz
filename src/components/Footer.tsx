@@ -32,8 +32,8 @@ export default function Footer() {
       <div className="border-t border-white/10">
         <div className="mx-auto max-w-7xl px-6 py-5 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between text-xs text-white/50">
           <p>
-            © {new Date().getFullYear()} Playmakerz — End-to-end production
-            for corporate sports leagues.
+            © 2026 Playmakerz — End-to-end production for corporate sports
+            leagues.
           </p>
           <Link href="/" className="underline hover:text-white">
             Home
