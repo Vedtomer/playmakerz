@@ -47,7 +47,9 @@ export default function RegisterForTrialsPage() {
   const [location, setLocation] = useState(TRIAL_LOCATIONS[0]);
   const [pkg, setPkg] = useState(PACKAGES[0].id);
 
-  const [status, setStatus] = useState<"idle" | "loading" | "paid" | "error">("idle");
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "verifying" | "paid" | "error"
+  >("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
   async function handleSubmit(e: React.FormEvent) {
@@ -91,6 +93,7 @@ export default function RegisterForTrialsPage() {
           razorpay_payment_id: string;
           razorpay_signature: string;
         }) => {
+          setStatus("verifying");
           try {
             const verifyRes = await fetch("/api/verify-payment", {
               method: "POST",
@@ -150,7 +153,18 @@ export default function RegisterForTrialsPage() {
               />
             </div>
 
-            {status === "paid" ? (
+            {status === "verifying" ? (
+              <div className="rounded-2xl bg-white p-10 text-center text-black">
+                <div className="mx-auto h-10 w-10 animate-spin rounded-full border-4 border-black/10 border-t-amber-dark" />
+                <h2 className="mt-5 font-heading text-2xl font-bold">
+                  Confirming your payment…
+                </h2>
+                <p className="mt-2 text-black/70">
+                  Payment received! We&apos;re locking in your trial slot and
+                  sending your confirmation — this takes just a few seconds.
+                </p>
+              </div>
+            ) : status === "paid" ? (
               <div className="rounded-2xl bg-white p-10 text-center text-black">
                 <h2 className="font-heading text-2xl font-bold">
                   Thanks — you&apos;re in!
