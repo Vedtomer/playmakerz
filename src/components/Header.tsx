@@ -34,9 +34,9 @@ export default function Header() {
             <Image
               src="/images/logo.png"
               alt="Playmakerz"
-              width={140}
-              height={48}
-              className="h-10 w-auto object-contain"
+              width={160}
+              height={160}
+              className="h-14 w-14 sm:h-16 sm:w-16 object-contain"
               priority
             />
           </Link>
