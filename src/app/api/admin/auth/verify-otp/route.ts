@@ -4,7 +4,7 @@ import { hashOtp } from "@/lib/otp";
 import { setSessionCookie } from "@/lib/adminAuth";
 
 export async function POST(req: NextRequest) {
-  const { email, otp } = await req.json();
+  const { email, otp, rememberMe } = await req.json();
 
   if (!email || !otp) {
     return NextResponse.json({ error: "Missing email or code" }, { status: 400 });
@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
   }
 
   await pool.execute("UPDATE admin_otps SET consumed = 1 WHERE id = ?", [Number(match.id)]);
-  await setSessionCookie(email);
+  await setSessionCookie(email, Boolean(rememberMe));
 
   return NextResponse.json({ ok: true });
 }

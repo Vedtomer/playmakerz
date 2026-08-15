@@ -3,17 +3,18 @@ import {
   ADMIN_SESSION_COOKIE,
   createSessionToken,
   verifySessionToken,
-  SESSION_MAX_AGE_SECONDS,
+  sessionMaxAgeSeconds,
 } from "@/lib/session";
 
-export async function setSessionCookie(email: string) {
+export async function setSessionCookie(email: string, rememberMe: boolean) {
   const store = await cookies();
-  store.set(ADMIN_SESSION_COOKIE, createSessionToken(email), {
+  const token = await createSessionToken(email, rememberMe);
+  store.set(ADMIN_SESSION_COOKIE, token, {
     httpOnly: true,
     secure: true,
     sameSite: "lax",
     path: "/",
-    maxAge: SESSION_MAX_AGE_SECONDS,
+    maxAge: sessionMaxAgeSeconds(rememberMe),
   });
 }
 
@@ -24,6 +25,6 @@ export async function clearSessionCookie() {
 
 export async function getSessionEmail() {
   const store = await cookies();
-  const session = verifySessionToken(store.get(ADMIN_SESSION_COOKIE)?.value);
+  const session = await verifySessionToken(store.get(ADMIN_SESSION_COOKIE)?.value);
   return session?.email ?? null;
 }

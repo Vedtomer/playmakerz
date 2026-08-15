@@ -8,6 +8,7 @@ export default function AdminLoginPage() {
   const [step, setStep] = useState<"email" | "otp">("email");
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -39,7 +40,7 @@ export default function AdminLoginPage() {
       const res = await fetch("/api/admin/auth/verify-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, otp }),
+        body: JSON.stringify({ email, otp, rememberMe }),
       });
       const body = await res.json();
       if (!res.ok) throw new Error(body.error || "Invalid code");
@@ -76,6 +77,16 @@ export default function AdminLoginPage() {
             <p className="text-xs text-white/50">
               We&apos;ll send a code to your email and WhatsApp.
             </p>
+
+            <label className="flex items-center gap-2 text-sm text-white/70 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+                className="accent-amber"
+              />
+              Remember me
+            </label>
 
             <button
               type="submit"
