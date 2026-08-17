@@ -35,9 +35,17 @@ export default function Footer() {
             © 2026 Playmakerz — End-to-end production for corporate sports
             leagues.
           </p>
-          <Link href="/" className="underline hover:text-white">
-            Home
-          </Link>
+          <div className="flex gap-4">
+            <Link href="/privacy-policy" className="hover:text-white">
+              Privacy Policy
+            </Link>
+            <Link href="/terms-of-service" className="hover:text-white">
+              Terms of Service
+            </Link>
+            <Link href="/" className="underline hover:text-white">
+              Home
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
