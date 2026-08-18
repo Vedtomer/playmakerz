@@ -4,15 +4,19 @@ let transporter: nodemailer.Transporter | undefined;
 
 function getTransporter() {
   if (!transporter) {
+    const port = Number(process.env.SMTP_PORT ?? 587);
     transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
-      port: Number(process.env.SMTP_PORT ?? 587),
-      secure: false,
+      port,
+      secure: port === 465,
+      // This server's IPv6 resolution/routing is broken (same issue hit
+      // with MySQL) — force IPv4 or the connection hangs until timeout.
+      family: 4,
       auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASSWORD,
       },
-    });
+    } as nodemailer.TransportOptions);
   }
   return transporter;
 }
