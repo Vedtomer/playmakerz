@@ -1,11 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Razorpay from "razorpay";
 import { getPool } from "@/lib/db";
-
-const PACKAGE_AMOUNTS: Record<string, { amountInr: number; label: string }> = {
-  "bat-bowl": { amountInr: 800, label: "₹800 Trial (Bat / Bowl)" },
-  "all-rounder": { amountInr: 1200, label: "₹1200 Trial (All Rounder)" },
-};
+import { findPackage, totalWithGst, packageLabel } from "@/lib/pricing";
 
 export async function POST(req: NextRequest) {
   const keyId = process.env.RAZORPAY_KEY_ID;
@@ -29,14 +25,16 @@ export async function POST(req: NextRequest) {
     packageId,
   } = body;
 
-  const pkg = PACKAGE_AMOUNTS[packageId];
+  const pkg = findPackage(packageId);
   if (!fullName || !phone || !email || !pkg) {
     return NextResponse.json({ error: "Missing or invalid fields" }, { status: 400 });
   }
 
+  const amountInr = totalWithGst(pkg.basePrice);
+
   const razorpay = new Razorpay({ key_id: keyId, key_secret: keySecret });
   const order = await razorpay.orders.create({
-    amount: pkg.amountInr * 100,
+    amount: amountInr * 100,
     currency: "INR",
     receipt: `fpl_${Date.now()}`,
   });
@@ -46,7 +44,7 @@ export async function POST(req: NextRequest) {
     `INSERT INTO trial_registrations
       (full_name, age, phone, email, playing_style, trial_location, package_id, package_label, amount_inr, razorpay_order_id, payment_status)
      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'created')`,
-    [fullName, age, phone, email, playingStyle, trialLocation, packageId, pkg.label, pkg.amountInr, order.id]
+    [fullName, age, phone, email, playingStyle, trialLocation, packageId, packageLabel(pkg), amountInr, order.id]
   );
 
   return NextResponse.json({

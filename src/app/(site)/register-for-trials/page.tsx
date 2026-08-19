@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Script from "next/script";
 import { useState } from "react";
+import { PACKAGES, gstAmount, totalWithGst, packageLabel, type PackageId } from "@/lib/pricing";
 
 declare global {
   interface Window {
@@ -14,10 +15,6 @@ declare global {
 
 const PLAYING_STYLES = ["Batsman", "Bowler", "All Rounder"];
 const TRIAL_LOCATIONS = ["Faridabad", "Delhi", "Gurugram"];
-const PACKAGES = [
-  { id: "bat-bowl", label: "₹800 Trial (Bat / Bowl)" },
-  { id: "all-rounder", label: "₹1200 Trial (All Rounder)" },
-];
 
 const FAQS = [
   {
@@ -45,7 +42,7 @@ export default function RegisterForTrialsPage() {
   const [email, setEmail] = useState("");
   const [playingStyle, setPlayingStyle] = useState(PLAYING_STYLES[0]);
   const [location, setLocation] = useState(TRIAL_LOCATIONS[0]);
-  const [pkg, setPkg] = useState(PACKAGES[0].id);
+  const [pkg, setPkg] = useState<PackageId>(PACKAGES[0].id);
 
   const [status, setStatus] = useState<
     "idle" | "loading" | "verifying" | "paid" | "error"
@@ -85,7 +82,10 @@ export default function RegisterForTrialsPage() {
         currency: order.currency,
         order_id: order.orderId,
         name: "Playmakerz — FPL 2026 Trials",
-        description: PACKAGES.find((p) => p.id === pkg)?.label,
+        description: (() => {
+          const selected = PACKAGES.find((p) => p.id === pkg);
+          return selected ? packageLabel(selected) : undefined;
+        })(),
         prefill: { name: fullName, email, contact: phone },
         theme: { color: "#FFB800" },
         handler: async (response: {
@@ -292,19 +292,45 @@ export default function RegisterForTrialsPage() {
                       {PACKAGES.map((p) => (
                         <label
                           key={p.id}
-                          className="flex items-center gap-2 rounded-lg border border-black/10 bg-mist px-4 py-2.5 text-sm cursor-pointer"
+                          className="flex items-center justify-between gap-2 rounded-lg border border-black/10 bg-mist px-4 py-2.5 text-sm cursor-pointer"
                         >
-                          <input
-                            type="radio"
-                            name="package"
-                            checked={pkg === p.id}
-                            onChange={() => setPkg(p.id)}
-                            className="accent-amber"
-                          />
-                          {p.label}
+                          <span className="flex items-center gap-2">
+                            <input
+                              type="radio"
+                              name="package"
+                              checked={pkg === p.id}
+                              onChange={() => setPkg(p.id)}
+                              className="accent-amber"
+                            />
+                            {p.name}
+                          </span>
+                          <span className="font-semibold">
+                            ₹{totalWithGst(p.basePrice)}
+                          </span>
                         </label>
                       ))}
                     </div>
+
+                    {(() => {
+                      const selected = PACKAGES.find((p) => p.id === pkg);
+                      if (!selected) return null;
+                      return (
+                        <div className="mt-3 rounded-lg bg-mist px-4 py-3 text-xs text-black/70">
+                          <div className="flex justify-between">
+                            <span>Trial fee</span>
+                            <span>₹{selected.basePrice}</span>
+                          </div>
+                          <div className="flex justify-between mt-1">
+                            <span>GST (18%)</span>
+                            <span>₹{gstAmount(selected.basePrice)}</span>
+                          </div>
+                          <div className="flex justify-between mt-1.5 pt-1.5 border-t border-black/10 font-semibold text-black">
+                            <span>Total payable</span>
+                            <span>₹{totalWithGst(selected.basePrice)}</span>
+                          </div>
+                        </div>
+                      );
+                    })()}
                   </fieldset>
 
                   <button
