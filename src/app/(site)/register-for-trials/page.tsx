@@ -305,7 +305,7 @@ export default function RegisterForTrialsPage() {
                             {p.name}
                           </span>
                           <span className="font-semibold">
-                            ₹{totalWithGst(p.basePrice)}
+                            ₹{p.basePrice}
                           </span>
                         </label>
                       ))}
