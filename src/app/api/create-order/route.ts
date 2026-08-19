@@ -2,10 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import Razorpay from "razorpay";
 import { getPool } from "@/lib/db";
 import { findPackage, totalWithGst, packageLabel } from "@/lib/pricing";
+import { getActiveRazorpayCredentials } from "@/lib/paymentSettings";
 
 export async function POST(req: NextRequest) {
-  const keyId = process.env.RAZORPAY_KEY_ID;
-  const keySecret = process.env.RAZORPAY_KEY_SECRET;
+  const { mode, keyId, keySecret } = await getActiveRazorpayCredentials();
 
   if (!keyId || !keySecret) {
     return NextResponse.json(
@@ -42,9 +42,9 @@ export async function POST(req: NextRequest) {
   const pool = getPool();
   await pool.execute(
     `INSERT INTO trial_registrations
-      (full_name, age, phone, email, playing_style, trial_location, package_id, package_label, amount_inr, razorpay_order_id, payment_status)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'created')`,
-    [fullName, age, phone, email, playingStyle, trialLocation, packageId, packageLabel(pkg), amountInr, order.id]
+      (full_name, age, phone, email, playing_style, trial_location, package_id, package_label, amount_inr, razorpay_order_id, payment_mode, payment_status)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'created')`,
+    [fullName, age, phone, email, playingStyle, trialLocation, packageId, packageLabel(pkg), amountInr, order.id, mode]
   );
 
   return NextResponse.json({

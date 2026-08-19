@@ -3,13 +3,9 @@ import crypto from "crypto";
 import { getPool } from "@/lib/db";
 import { sendRegistrationEmails } from "@/lib/mailer";
 import { sendWhatsAppConfirmation } from "@/lib/whatsapp";
+import { getPaymentSettings, credentialsForMode } from "@/lib/paymentSettings";
 
 export async function POST(req: NextRequest) {
-  const keySecret = process.env.RAZORPAY_KEY_SECRET;
-  if (!keySecret) {
-    return NextResponse.json({ error: "Payments are not configured" }, { status: 503 });
-  }
-
   const {
     razorpay_order_id,
     razorpay_payment_id,
@@ -20,20 +16,42 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Missing payment fields" }, { status: 400 });
   }
 
+  const pool = getPool();
+
+  // Look the registration up first so we verify with whichever mode
+  // (test/live) its order was actually created under, even if the admin
+  // has switched the active mode since then.
+  const [existingRows] = await pool.execute(
+    `SELECT * FROM trial_registrations WHERE razorpay_order_id = ? LIMIT 1`,
+    [razorpay_order_id]
+  );
+  const existing = (existingRows as Record<string, unknown>[])[0];
+
+  if (!existing) {
+    return NextResponse.json({ error: "Registration not found" }, { status: 404 });
+  }
+
+  const settings = await getPaymentSettings();
+  const orderMode = (existing.payment_mode as "test" | "live") ?? settings.mode;
+  const { keySecret } = credentialsForMode(settings, orderMode);
+
+  if (!keySecret) {
+    return NextResponse.json({ error: "Payments are not configured" }, { status: 503 });
+  }
+
   const expectedSignature = crypto
     .createHmac("sha256", keySecret)
     .update(`${razorpay_order_id}|${razorpay_payment_id}`)
     .digest("hex");
 
   if (expectedSignature !== razorpay_signature) {
-    await getPool().execute(
+    await pool.execute(
       `UPDATE trial_registrations SET payment_status = 'failed' WHERE razorpay_order_id = ?`,
       [razorpay_order_id]
     );
     return NextResponse.json({ error: "Signature verification failed" }, { status: 400 });
   }
 
-  const pool = getPool();
   await pool.execute(
     `UPDATE trial_registrations
        SET payment_status = 'paid', razorpay_payment_id = ?
@@ -41,25 +59,15 @@ export async function POST(req: NextRequest) {
     [razorpay_payment_id, razorpay_order_id]
   );
 
-  const [rows] = await pool.execute(
-    `SELECT * FROM trial_registrations WHERE razorpay_order_id = ? LIMIT 1`,
-    [razorpay_order_id]
-  );
-  const reg = (rows as Record<string, unknown>[])[0];
-
-  if (!reg) {
-    return NextResponse.json({ error: "Registration not found" }, { status: 404 });
-  }
-
   const details = {
-    fullName: String(reg.full_name),
-    age: Number(reg.age),
-    phone: String(reg.phone),
-    email: String(reg.email),
-    playingStyle: String(reg.playing_style),
-    trialLocation: String(reg.trial_location),
-    packageLabel: String(reg.package_label),
-    amountInr: Number(reg.amount_inr),
+    fullName: String(existing.full_name),
+    age: Number(existing.age),
+    phone: String(existing.phone),
+    email: String(existing.email),
+    playingStyle: String(existing.playing_style),
+    trialLocation: String(existing.trial_location),
+    packageLabel: String(existing.package_label),
+    amountInr: Number(existing.amount_inr),
     paymentId: razorpay_payment_id,
   };
 
