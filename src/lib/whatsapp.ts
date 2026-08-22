@@ -96,7 +96,7 @@ export async function sendWhatsAppOtp(phone: string, otp: string) {
         type: "template",
         template: {
           name: templateName,
-          language: { code: "en_US" },
+          language: { code: "en" },
           components: [
             {
               type: "body",
